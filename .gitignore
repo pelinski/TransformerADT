@@ -1,0 +1,4 @@
+.vscode/
+soundfonts/*
+*.sf2
+__pycache__/
