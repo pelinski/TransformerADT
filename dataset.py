@@ -161,7 +161,7 @@ class GrooveMidiDatasetADT(torch.utils.data.Dataset):
         processed_inputs, processed_outputs = [], []
 
         # init list with configurations
-        hvo_index, soundfonts = [], [], []
+        hvo_index, soundfonts = [], []
 
         for hvo_idx, hvo_seq in enumerate(
             tqdm(data, desc="processing dataset {}".format(self.subset_info["subset"]))
@@ -180,7 +180,7 @@ class GrooveMidiDatasetADT(torch.utils.data.Dataset):
                 hvo_sequences.append(hvo_seq)
 
                 # get voices and sf combinations
-                sfs = random.choice(self.sfs_list, k=self.aug_coefficient)
+                sfs = random.choices(self.sfs_list, k=self.aug_coefficient)
                 # for every sf and voice combination
                 for sf in sfs:
 

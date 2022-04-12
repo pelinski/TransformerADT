@@ -1,3 +1,9 @@
-[submodule "src/hvo_sequence"]
-	path = src/hvo_sequence
+[submodule "GMD2HVO_PreProcessing"]
+	path = GMD2HVO_PreProcessing
+	url = git@github.com:behzadhaki/GMD2HVO_PreProcessing.git
+[submodule "hvo_sequence"]
+	path = hvo_sequence
 	url = git@github.com:behzadhaki/hvo_sequence.git
+[submodule "preprocessed_dataset"]
+	path = preprocessed_dataset
+	url = git@github.com:behzadhaki/preprocessed_dataset.git
