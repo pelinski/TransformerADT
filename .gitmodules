@@ -7,3 +7,9 @@
 [submodule "preprocessed_dataset"]
 	path = preprocessed_dataset
 	url = git@github.com:behzadhaki/preprocessed_dataset.git
+[submodule "BaseGrooveTransformers"]
+	path = BaseGrooveTransformers
+	url = git@github.com:behzadhaki/BaseGrooveTransformers.git
+[submodule "GrooveEvaluator"]
+	path = GrooveEvaluator
+	url = git@github.com:behzadhaki/GrooveEvaluator.git

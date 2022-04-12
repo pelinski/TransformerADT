@@ -3,3 +3,6 @@ soundfonts/*
 *.sf2
 __pycache__/
 datasets/
+wandb/
+results/
+evaluators/

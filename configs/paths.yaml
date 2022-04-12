@@ -1,0 +1,9 @@
+GrooveADT_testing:
+  datasets:
+    train: "datasets/GrooveADT_testing/0.0.0/train"
+    test: "datasets/GrooveADT_testing/0.0.0/test"
+    validation: "datasets/GrooveADT_testing/0.0.0/validation"
+  evaluators:
+    train: "evaluators/ADTEvaluator_0.0.0/GrooveADT_testing_train_0.0.0_evaluator.pickle"
+    test: "evaluators/ADTEvaluator_0.0.0/GrooveADT_testing_test_0.0.0_evaluator.pickle"
+    validation: "evaluators/ADTEvaluator_0.0.0/GrooveADT_testing_validation_0.0.0_evaluator.pickle"

@@ -1,5 +1,6 @@
 '''
 conda env create -f environment.yml
-cd src/preprocessed_dataset && python extract_locally.py
-cd ../dataset && unzip soundfonts.zip
+add resources -- you dont really need thsi if you download the datasets directly
+GMD preprocessing dataset
+soundfonts.zip
 '''

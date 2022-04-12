@@ -157,7 +157,7 @@ class GrooveMidiDatasetADT(torch.utils.data.Dataset):
         print("GrooveMidiDatasetADT version " + self.__version__)
 
         # init lists to store hvo sequences and processed io
-        hvo_sequences = []
+        hvo_sequences, hvo_sequences_outputs = [], []
         processed_inputs, processed_outputs = [], []
 
         # init list with configurations
@@ -187,6 +187,7 @@ class GrooveMidiDatasetADT(torch.utils.data.Dataset):
                     # store hvo and sf
                     hvo_index.append(hvo_idx)
                     soundfonts.append(sf)
+                    hvo_sequences_outputs.append(hvo_seq)
 
                     # processed inputs: mso
                     mso = hvo_seq.mso(sf_path=sf, **self.mso_params)
@@ -203,6 +204,7 @@ class GrooveMidiDatasetADT(torch.utils.data.Dataset):
             "processed_inputs": processed_inputs,
             "processed_outputs": processed_outputs,
             "hvo_sequences": hvo_sequences,
+            "hvo_sequences_outputs": hvo_sequences_outputs,
             "hvo_index": hvo_index,
             "soundfonts": soundfonts,
         }
