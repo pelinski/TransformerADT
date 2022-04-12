@@ -2,11 +2,10 @@ import copy
 from dataset import GrooveMidiDatasetADT
 from preprocessed_dataset import GrooveMidiSubsetter
 
-
 params = {
     "dataset_name": "GrooveADT",
     "subset_info": {
-        "pickle_source_path": "preprocessed_dataset/datasets_extracted_locally/GrooveMidi/hvo_0.5.2_submod/Processed_On_10_04_2022_at_01_28_hrs",
+        "pickle_source_path": "dataset/preprocessed_dataset/datasets_extracted_locally/GrooveMidi/hvo_0.5.2_submod/Processed_On_10_04_2022_at_01_28_hrs",
         "subset": "GrooveMIDI_processed_",
         "metadata_csv_filename": "metadata.csv",
         "hvo_pickle_filename": "hvo_sequence_data.obj",
@@ -28,7 +27,7 @@ params = {
 }
 
 
-def preprocess_dataset(params):
+def process_dataset(params):
     _, subset_list = GrooveMidiSubsetter(
         pickle_source_path=params["subset_info"]["pickle_source_path"],
         subset=params["subset_info"]["subset"],
@@ -41,7 +40,7 @@ def preprocess_dataset(params):
     return _dataset
 
 
-def load_preprocessed_dataset(load_dataset_path):
+def load_processed_dataset(load_dataset_path):
     print("Loading GrooveMidiADT dataset..")
     _dataset = GrooveMidiDatasetADT(load_dataset_path=load_dataset_path)
 
@@ -71,4 +70,4 @@ if __name__ == "__main__":
         _params["split"] = split
         _params["subset_info"]["subset"] = _params["subset_info"]["subset"] + split
 
-        preprocess_dataset(_params)
+        process_dataset(_params)
