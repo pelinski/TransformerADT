@@ -49,7 +49,7 @@ def load_processed_dataset(load_dataset_path):
 
 if __name__ == "__main__":
 
-    testing = True
+    testing = False
 
     # change experiment and split here
     splits = ["train", "test", "validation"]
