@@ -6,26 +6,14 @@ import torch.optim as opt
 from torch.nn import functional as F
 
 
-def conv_output_size(img_size, padding, kernel_size, stride):
-    # compute output shape of conv3D
-    outshape = (
-        np.floor(
-            (img_size[0] + 2 * padding[0] - (kernel_size[0] - 1) - 1) / stride[0] + 1
-        ).astype(int),
-        np.floor(
-            (img_size[1] + 2 * padding[1] - (kernel_size[1] - 1) - 1) / stride[1] + 1
-        ).astype(int),
-    )
-    return outshape
-
-
 class VanillaVAE(nn.Module):
-    def __init__(self, in_channels, latent_dim, out_x, out_y):
+    def __init__(self, in_channels, latent_dim, out_x, out_y, device):
         super(VanillaVAE, self).__init__()
 
         self.latent_dim = latent_dim
         self.out_x = out_x
         self.out_y = out_y
+        self.device = device
 
         hidden_dims = [32, 64, 128, 256, 512]
 
@@ -96,11 +84,20 @@ class VanillaVAE(nn.Module):
         return [mu, log_var]
 
     def decode(self, z):
-        x = self.decoder_input(z)
-        x = x.view(-1, 512, 1, 1)
-        x = self.decoder(x)
+        y = self.decoder_input(z)
+        y = y.view(-1, 512, 1, 1)
+        y = self.decoder(y)
+        y = y.squeeze()
+        y = torch.reshape(y, (y.shape[0], y.shape[1], 3, y.shape[2] // 3))
+        _h = y[:, :, 0, :]
+        _v = y[:, :, 1, :]
+        _o = y[:, :, 2, :]
 
-        return x
+        h = _h
+        v = torch.sigmoid(_v)
+        o = torch.tanh(_o) * 0.5
+
+        return h, v, o
 
     def reparameterize(self, mu, logvar):
 
@@ -109,9 +106,10 @@ class VanillaVAE(nn.Module):
         return eps * std + mu
 
     def forward(self, inp):
+        inp = inp[:, None, :, :]
         mu, log_var = self.encode(inp)
         z = self.reparameterize(mu, log_var)
-        return [self.decode(z), inp, mu, log_var]
+        return self.decode(z)
 
     def sample(self, num_samples, current_device):
         z = torch.randn(num_samples, self.latent_dim)
@@ -121,6 +119,6 @@ class VanillaVAE(nn.Module):
         samples = self.decode(z)
         return samples
 
-    def generate(self, x):
+    def predict(self, x, use_thres, thres):
 
-        return self.forward(x)[0]
+        return self.forward(x)

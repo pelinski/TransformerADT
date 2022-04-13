@@ -167,7 +167,7 @@ class ADTEvaluator(Evaluator):
     def set_pred(self, model):
         self.processed_inputs = self.processed_inputs.to(self.device)
         eval_pred = model.predict(self.processed_inputs, use_thres=True, thres=0.5)
-        eval_pred = [_.cpu() for _ in eval_pred]
+        eval_pred = [_.cpu().detach().numpy() for _ in eval_pred]
         eval_pred = np.concatenate(eval_pred, axis=2)
 
         self._prediction_hvos_array = eval_pred
@@ -201,7 +201,7 @@ class ADTEvaluator(Evaluator):
                     )
                 else:  # symbolic dataset
                     sf_dict[key].append(
-                        "soundfonts/filtered_soundfonts/Standard_Drum_Kit.sf2"
+                        "soundfonts/Standard_Drum_Kit.sf2"
                     )
 
         self.sf_dict = sf_dict
