@@ -5,7 +5,7 @@ from preprocessed_dataset.Subset_Creators.subsetters import GrooveMidiSubsetter
 params = {
     "dataset_name": "GrooveADT",
     "subset_info": {
-        "pickle_source_path": "GMD2HVO_PreProcessing/processed_dataset/Processed_On_12_04_2022_at_13_38_hrs",
+        "pickle_source_path": "GMD2HVO_PreProcessing/processed_dataset/Processed_On_12_04_2022_at_18_47_hrs",
         "subset": "GrooveMIDI_processed_",
         "metadata_csv_filename": "metadata.csv",
         "hvo_pickle_filename": "hvo_sequence_data.obj",
@@ -21,8 +21,8 @@ params = {
         "f_min": 40,
         "mean_filter_size": 22,
     },
-    "sf_path": "soundfonts/",
-    "aug_coefficient": 4,
+    "sf_path": "soundfonts/Standard_Drum_Kit.sf2",
+    "aug_coefficient": 1,
     "save_dataset_path": "GrooveADT/",
 }
 

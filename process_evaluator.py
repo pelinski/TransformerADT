@@ -8,7 +8,12 @@ params = {
             "train": "datasets/GrooveADT_testing/0.0.0/train",
             "test": "datasets/GrooveADT_testing/0.0.0/test",
             "validation": "datasets/GrooveADT_testing/0.0.0/validation",
-        }
+        },
+        "GrooveADT": {
+            "train": "datasets/GrooveADT/0.0.0/train",
+            "test": "datasets/GrooveADT/0.0.0/test",
+            "validation": "datasets/GrooveADT/0.0.0/validation",
+        },
     },
     "evaluator": {
         "n_samples_to_use": 1681,  # 2048
@@ -19,7 +24,7 @@ params = {
 
 if __name__ == "__main__":
 
-    testing = True
+    testing = False
 
     exps = ["GrooveADT"]
     splits = ["test", "train", "validation"]
@@ -33,10 +38,7 @@ if __name__ == "__main__":
                 params["evaluator"]["n_samples_to_use"] = 10
                 params["evaluator"]["n_samples_to_synthesize_visualize_per_subset"] = 5
 
-
-            dataset = load_processed_dataset(
-                params["dataset_paths"][_exp][split]
-            )
+            dataset = load_processed_dataset(params["dataset_paths"][_exp][split])
 
             evaluator = ADTEvaluator(
                 pickle_source_path=dataset.subset_info["pickle_source_path"],

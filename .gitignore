@@ -6,3 +6,4 @@ datasets/
 wandb/
 results/
 evaluators/
+hpc.txt

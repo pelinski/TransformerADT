@@ -7,3 +7,13 @@ GrooveADT_testing:
     train: "evaluators/ADTEvaluator_0.0.0/GrooveADT_testing_train_0.0.0_evaluator.pickle"
     test: "evaluators/ADTEvaluator_0.0.0/GrooveADT_testing_test_0.0.0_evaluator.pickle"
     validation: "evaluators/ADTEvaluator_0.0.0/GrooveADT_testing_validation_0.0.0_evaluator.pickle"
+
+GrooveADT:
+  datasets:
+    train: "datasets/GrooveADT/0.0.0/train"
+    test: "datasets/GrooveADT/0.0.0/test"
+    validation: "datasets/GrooveADT/0.0.0/validation"
+  evaluators:
+    train: "evaluators/ADTEvaluator_0.0.0/GrooveADT_train_0.0.0_evaluator.pickle"
+    test: "evaluators/ADTEvaluator_0.0.0/GrooveADT_test_0.0.0_evaluator.pickle"
+    validation: "evaluators/ADTEvaluator_0.0.0/GrooveADT_validation_0.0.0_evaluator.pickle"
