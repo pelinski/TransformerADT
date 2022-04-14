@@ -16,7 +16,7 @@ parser.add_argument("--paths", help="paths file", default="configs/paths.yaml")
 parser.add_argument("--testing", help="testing mode", default=False)
 parser.add_argument("--wandb", help="log to wandb", default=True)
 parser.add_argument("--eval_train", help="evaluator train set", default=True)
-parser.add_argument("--eval_test", help="evaluator test set", default=False)
+parser.add_argument("--eval_test", help="evaluator test set", default=True)
 parser.add_argument("--eval_validation", help="evaluator validation set", default=True)
 parser.add_argument(
     "--only_final_eval", help="only final total evaluation", default=False
@@ -141,17 +141,17 @@ if __name__ == "__main__":
     if args.eval_train:
         evaluator_train = init_evaluator(
             paths[wandb.config.experiment]["evaluators"]["train"],
-            device=params["model"]["device"],
+            device=params["model"]["device"],disable_tqdm=True
         )
     if args.eval_test:
         evaluator_test = init_evaluator(
             paths[wandb.config.experiment]["evaluators"]["test"],
-            device=params["model"]["device"],
+            device=params["model"]["device"],disable_tqdm=True
         )
     if args.eval_validation:
         evaluator_validation = init_evaluator(
             paths[wandb.config.experiment]["evaluators"]["validation"],
-            device=params["model"]["device"],
+            device=params["model"]["device"],disable_tqdm=True
         )
 
     BCE_fn, MSE_fn = (

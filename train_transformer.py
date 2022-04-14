@@ -151,7 +151,7 @@ if __name__ == "__main__":
 
     # load dataset
     dataset_train = load_processed_dataset(
-        paths[wandb.config.experiment]["datasets"]["train"]
+        paths[wandb.config.experiment]["datasets"]["train"], wandb.config.experiment
     )
     dataloader_train = DataLoader(
         dataset_train, batch_size=wandb.config.batch_size, shuffle=True, pin_memory=True
