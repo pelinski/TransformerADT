@@ -9,7 +9,7 @@ import pprint
 from process_dataset import load_processed_dataset
 from evaluator import init_evaluator, log_eval
 from utils import eval_log_freq
-from BaseGrooveTransformers import initialize_model, calculate_loss, train_loop
+from vae.train import initialize_model, calculate_loss, train_loop
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--paths", help="paths file", default="configs/paths.yaml")
@@ -34,23 +34,14 @@ parser.add_argument(
     default=None,
 )
 parser.add_argument("--experiment", help="experiment id", default=None)
-parser.add_argument(
-    "--encoder_only", help="transformer encoder only", default=1, type=int
-)
+parser.add_argument("--in_channels", help="input channels", default=1, type=int)
+parser.add_argument("--latent_dim", help="latent dimension", default=32, type=int)
+parser.add_argument("--out_x", help="output x dimension", default=32, type=int)
+parser.add_argument("--out_y", help="output y dimension", default=32, type=int)
 parser.add_argument(
     "--optimizer_algorithm", help="optimizer_algorithm", default="sgd", type=str
 )
-parser.add_argument("--d_model", help="model dimension", default=64, type=int)
-parser.add_argument(
-    "--n_heads", help="number of heads for multihead attention", default=16, type=int
-)
-parser.add_argument("--dropout", help="dropout factor", default=0.2, type=float)
-parser.add_argument(
-    "--num_encoder_decoder_layers",
-    help="number of encoder/decoder layers",
-    default=7,
-    type=int,
-)
+
 parser.add_argument(
     "--hit_loss_penalty",
     help="non_hit loss multiplier (between 0 and 1)",
@@ -72,12 +63,11 @@ if args.config is not None:
         hyperparameters = yaml.safe_load(f)
 else:
     hyperparameters = dict(
-        encoder_only=args.encoder_only,
         optimizer_algorithm=args.optimizer_algorithm,
-        d_model=args.d_model,
-        n_heads=args.n_heads,
-        dropout=args.dropout,
-        num_encoder_decoder_layers=args.num_encoder_decoder_layers,
+        in_channels=args.in_channels,
+        latent_dim=args.latent_dim,
+        out_x=args.out_x,
+        out_y=args.out_y,
         hit_loss_penalty=args.hit_loss_penalty,
         batch_size=args.batch_size,
         dim_feedforward=args.dim_feedforward,
@@ -115,21 +105,12 @@ if __name__ == "__main__":
     params = {
         "model": {
             "experiment": wandb.config.experiment,
-            "encoder_only": wandb.config.encoder_only,
             "optimizer": wandb.config.optimizer_algorithm,
-            "d_model": wandb.config.d_model,
-            "n_heads": wandb.config.n_heads,
-            "dim_feedforward": wandb.config.dim_feedforward,
-            "dropout": wandb.config.dropout,
-            "num_encoder_layers": wandb.config.num_encoder_decoder_layers,
-            "num_decoder_layers": 0
-            if wandb.config.encoder_only
-            else wandb.config.num_encoder_decoder_layers,
+            "in_channels": wandb.config.in_channels,
+            "latent_dim": wandb.config.latent_dim,
+            "out_x": wandb.config.out_x,
+            "out_y": wandb.config.out_y,
             "max_len": 32,
-            "embedding_size_src": 16
-            if wandb.config.experiment != "InfillingClosedHH_Symbolic"
-            else 27,  # mso
-            "embedding_size_tgt": 27,  # hvo
             "device": "cuda" if torch.cuda.is_available() else "cpu",
         },
         "training": {
@@ -151,7 +132,7 @@ if __name__ == "__main__":
 
     # load dataset
     dataset_train = load_processed_dataset(
-        paths[wandb.config.experiment]["datasets"]["train"]
+        paths[wandb.config.experiment]["datasets"]["train"], wandb.config.experiment
     )
     dataloader_train = DataLoader(
         dataset_train, batch_size=wandb.config.batch_size, shuffle=True, pin_memory=True
@@ -160,17 +141,17 @@ if __name__ == "__main__":
     if args.eval_train:
         evaluator_train = init_evaluator(
             paths[wandb.config.experiment]["evaluators"]["train"],
-            device=params["model"]["device"],disable_tqdm=True
+            device=params["model"]["device"],
         )
     if args.eval_test:
         evaluator_test = init_evaluator(
             paths[wandb.config.experiment]["evaluators"]["test"],
-            device=params["model"]["device"],disable_tqdm=True
+            device=params["model"]["device"],
         )
     if args.eval_validation:
         evaluator_validation = init_evaluator(
             paths[wandb.config.experiment]["evaluators"]["validation"],
-            device=params["model"]["device"],disable_tqdm=True
+            device=params["model"]["device"],
         )
 
     BCE_fn, MSE_fn = (
@@ -194,8 +175,7 @@ if __name__ == "__main__":
         print(f"Epoch {ep}\n-------------------------------")
         train_loop(
             dataloader=dataloader_train,
-            groove_transformer=model,
-            encoder_only=wandb.config.encoder_only,
+            groove_vae=model,
             opt=optimizer,
             epoch=ep,
             loss_fn=calculate_loss,

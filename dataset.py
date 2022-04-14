@@ -287,6 +287,80 @@ class GrooveMidiDatasetADT(torch.utils.data.Dataset):
         return self.processed_inputs[idx], self.processed_outputs[idx], idx
 
 
+class GrooveMidiDatasetVAE(GrooveMidiDatasetADT):
+    def __init__(self, data=None, load_dataset_path=None, **kwargs):
+
+        super(GrooveMidiDatasetVAE, self).__init__(
+            data=data, load_dataset_path=load_dataset_path, **kwargs
+        )
+
+        # audio attrs inherited from GMDInfilling
+        del self.mso_params
+        del self.sfs_list
+        del self.sf_path
+        del self.aug_coefficient
+
+    # override preprocessing dataset method
+    def process_dataset(self, data):
+        self.__version__ = "0.0.0"
+        self.save_dataset_path = os.path.join(
+            os.path.join(self.save_dataset_path, self.__version__), self.split
+        )
+        print("GrooveMidiDatasetVAE version " + self.__version__)
+
+        # init lists to store hvo sequences and processed io
+        hvo_sequences = []
+        hvo_sequences_inputs, hvo_sequences_outputs = [], []
+        processed_inputs, processed_outputs = [], []
+
+        # init list with configurations
+        hvo_index = []
+
+        for hvo_idx, hvo_seq in enumerate(
+            tqdm(
+                data, desc="Preprocessing dataset {}".format(self.subset_info["subset"])
+            )
+        ):
+
+            all_zeros = not np.any(hvo_seq.hvo.flatten())  # silent patterns
+
+            if (
+                len(hvo_seq.time_signatures) == 1 and not all_zeros
+            ):  # ignore if time_signature change happens
+                # add metadata to hvo_seq scores
+                # add_metadata_to_hvo_seq(hvo_seq, hvo_idx, self.metadata)
+
+                # pad with zeros to match max_len
+                hvo_seq = pad_to_match_max_seq_len(hvo_seq, self.max_seq_len)
+
+                # append hvo_seq to hvo_sequences list
+                hvo_index.append(hvo_idx)
+                hvo_sequences.append(hvo_seq)
+
+                # inputs and outputs are the same
+                hvo_sequences_outputs.append(hvo_seq)
+
+                # processed inputs
+                processed_inputs.append(hvo_seq.hvo)
+
+                # processed outputs
+                processed_outputs.append(hvo_seq.hvo)
+
+        # convert inputs and outputs to torch tensors
+        processed_inputs = torch.Tensor(processed_inputs).to(device=device)
+        processed_outputs = torch.Tensor(processed_outputs).to(device=device)
+
+        processed_dict = {
+            "processed_inputs": processed_inputs,
+            "processed_outputs": processed_outputs,
+            "hvo_sequences": hvo_sequences,
+            "hvo_sequences_outputs": hvo_sequences_outputs,
+            "hvo_index": hvo_index,
+        }
+
+        return processed_dict
+
+
 # utils
 
 

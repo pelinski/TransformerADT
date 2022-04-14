@@ -8,3 +8,5 @@ results/
 evaluators/
 hpc.txt
 *.out
+tests/
+test.py
