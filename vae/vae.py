@@ -93,7 +93,7 @@ class VanillaVAE(nn.Module):
         _v = y[:, :, 1, :]
         _o = y[:, :, 2, :]
 
-        h = _h
+        h = torch.sigmoid(_h)
         v = torch.sigmoid(_v)
         o = torch.tanh(_o) * 0.5
 

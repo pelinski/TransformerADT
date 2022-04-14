@@ -155,7 +155,7 @@ if __name__ == "__main__":
         )
 
     BCE_fn, MSE_fn = (
-        torch.nn.BCEWithLogitsLoss(reduction="none"),
+        torch.nn.BCELoss(reduction="none"),
         torch.nn.MSELoss(reduction="none"),
     )
 
