@@ -160,17 +160,17 @@ if __name__ == "__main__":
     if args.eval_train:
         evaluator_train = init_evaluator(
             paths[wandb.config.experiment]["evaluators"]["train"],
-            device=params["model"]["device"],
+            device=params["model"]["device"],disable_tqdm=True
         )
     if args.eval_test:
         evaluator_test = init_evaluator(
             paths[wandb.config.experiment]["evaluators"]["test"],
-            device=params["model"]["device"],
+            device=params["model"]["device"],disable_tqdm=True
         )
     if args.eval_validation:
         evaluator_validation = init_evaluator(
             paths[wandb.config.experiment]["evaluators"]["validation"],
-            device=params["model"]["device"],
+            device=params["model"]["device"],disable_tqdm=True
         )
 
     BCE_fn, MSE_fn = (

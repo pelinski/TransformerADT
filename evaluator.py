@@ -468,13 +468,14 @@ class HVOSeq_SubSet_ADTEvaluator(HVOSeq_SubSet_Evaluator):
 # training script evaluator-related code wrappers
 
 
-def init_evaluator(evaluator_path, device):
+def init_evaluator(evaluator_path, device, disable_tqdm=False):
     with open(evaluator_path, "rb") as f:
         evaluator = pickle.load(f)
 
     evaluator.device = device
     evaluator.processed_inputs.to(device)
     evaluator.processed_gt.to(device)
+    evaluator.disable_tqdm = disable_tqdm
 
     return evaluator
 
