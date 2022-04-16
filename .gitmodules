@@ -1,6 +1,3 @@
-[submodule "GMD2HVO_PreProcessing"]
-	path = GMD2HVO_PreProcessing
-	url = git@github.com:behzadhaki/GMD2HVO_PreProcessing.git
 [submodule "hvo_sequence"]
 	path = hvo_sequence
 	url = git@github.com:behzadhaki/hvo_sequence.git
