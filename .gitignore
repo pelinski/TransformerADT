@@ -1,6 +1,4 @@
 .vscode/
-soundfonts/*
-*.sf2
 __pycache__/
 datasets/
 wandb/
