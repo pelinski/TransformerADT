@@ -48,10 +48,5 @@ pip install ipyparams
 ```
 
 You will also need the datasets and evaluators, that you can get from here:
-
-```
-wget link
-wget link
-unzip datasets.zip
-unzip evaluator.zip
-```
++ datasets: https://www.dropbox.com/sh/6xtysmnpka0mm61/AACnkK3TXvn3daowVSWzUxZGa?dl=0
++ evaluators: https://www.dropbox.com/sh/420h14aed00m2rw/AABWU25BSZbu6Y1G762Sh2NUa?dl=0
