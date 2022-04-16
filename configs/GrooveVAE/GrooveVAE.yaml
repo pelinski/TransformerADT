@@ -1,0 +1,11 @@
+experiment: "GrooveVAE"
+in_channels: 1
+latent_dim: 512
+out_x: 32
+out_y: 27
+batch_size: 32
+optimizer_algorithm: "sgd"
+learning_rate: 0.094
+epochs: 1000
+hit_loss_penalty: 0.47
+load_model: Null

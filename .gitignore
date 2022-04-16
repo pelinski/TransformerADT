@@ -1,4 +1,11 @@
 .vscode/
-soundfonts/*
-*.sf2
 __pycache__/
+datasets/
+wandb/
+results/
+evaluators/
+hpc.txt
+*.out
+tests/
+test.py
+*.zip

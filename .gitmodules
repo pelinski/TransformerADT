@@ -1,3 +1,12 @@
-[submodule "dataset/preprocessed_dataset"]
-	path = dataset/preprocessed_dataset
+[submodule "hvo_sequence"]
+	path = hvo_sequence
+	url = git@github.com:behzadhaki/hvo_sequence.git
+[submodule "preprocessed_dataset"]
+	path = preprocessed_dataset
 	url = git@github.com:behzadhaki/preprocessed_dataset.git
+[submodule "BaseGrooveTransformers"]
+	path = BaseGrooveTransformers
+	url = git@github.com:behzadhaki/BaseGrooveTransformers.git
+[submodule "GrooveEvaluator"]
+	path = GrooveEvaluator
+	url = git@github.com:behzadhaki/GrooveEvaluator.git
